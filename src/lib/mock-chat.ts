@@ -31,7 +31,7 @@ const REPLIES = [
   "Interesting! Tell me more.",
 ];
 
-const pick = <T,>(list: T[]) => list[Math.floor(Math.random() * list.length)];
+const pick = (list: string[]): string => list[Math.floor(Math.random() * list.length)] ?? list[0]!;
 const makeId = () => Math.random().toString(36).slice(2, 10);
 
 export function useMockChat() {
