@@ -9,7 +9,9 @@ export function Logo() {
           <circle cx="16" cy="12" r="4" />
         </svg>
       </span>
-      Stranger<span className="text-gradient">Connect</span>
+      <span>
+        Stranger<span className="text-gradient">Connect</span>
+      </span>
     </Link>
   );
 }
