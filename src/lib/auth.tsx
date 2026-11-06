@@ -97,11 +97,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ? prev // initial ensureSession() above owns the first settle
           : { user: session?.user ?? null, session, loading: false, error: null },
       );
-    });
+    }).data.subscription;
 
     return () => {
       cancelled = true;
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
