@@ -15,7 +15,23 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = import.meta.env["VITE_SUPABASE_URL"] as string | undefined;
 const supabaseKey = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] as string | undefined;
 
-if (!supabaseUrl || !supabaseKey) {
+/**
+ * The shared client, or null when the environment variables are not
+ * configured yet. Null instead of a throw so the UI keeps working (the auth
+ * provider surfaces the problem as a readable error state).
+ */
+export const supabase =
+  supabaseUrl && supabaseKey
+    ? createClient(supabaseUrl, supabaseKey, {
+        auth: {
+          persistSession: true, // keep the anonymous session in localStorage
+          autoRefreshToken: true, // silently refresh before expiry
+          detectSessionInUrl: true,
+        },
+      })
+    : null;
+
+if (!supabase) {
   // Surfaced loudly in dev so a missing env var is obvious instead of
   // failing later with a confusing network error.
   console.error(
@@ -23,11 +39,3 @@ if (!supabaseUrl || !supabaseKey) {
       "Add them to your environment before using authentication.",
   );
 }
-
-export const supabase = createClient(supabaseUrl ?? "", supabaseKey ?? "", {
-  auth: {
-    persistSession: true, // keep the anonymous session in localStorage
-    autoRefreshToken: true, // silently refresh before expiry
-    detectSessionInUrl: true,
-  },
-});
