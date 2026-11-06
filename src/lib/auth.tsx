@@ -91,9 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     // 2. Keep state in sync with later auth events (token refresh, sign-out).
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    const subscription = supabase?.auth.onAuthStateChange((_event, session) => {
       setState((prev) =>
         prev.loading
           ? prev // initial ensureSession() above owns the first settle
