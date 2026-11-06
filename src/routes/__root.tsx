@@ -124,9 +124,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Toaster theme="dark" position="top-center" />
+      {/* AuthProvider starts/restores the anonymous Supabase session once per page load. */}
+      <AuthProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Toaster theme="dark" position="top-center" />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
