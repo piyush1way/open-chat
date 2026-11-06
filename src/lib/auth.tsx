@@ -46,6 +46,12 @@ let initPromise: Promise<{ session: Session | null; error: string | null }> | nu
 
 function ensureSession() {
   initPromise ??= (async () => {
+    if (!supabase) {
+      return {
+        session: null,
+        error: "Supabase is not configured yet (missing environment variables).",
+      };
+    }
     try {
       const {
         data: { session },
