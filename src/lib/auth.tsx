@@ -64,6 +64,11 @@ function ensureSession() {
       if (signInError) throw signInError;
       return { session: data.session, error: null };
     } catch (err) {
+      // Log only the message — never the session or tokens.
+      console.error(
+        "[auth] Anonymous sign-in failed:",
+        err instanceof Error ? err.message : String(err),
+      );
       return {
         session: null,
         error: err instanceof Error ? err.message : "Could not start an anonymous session.",
